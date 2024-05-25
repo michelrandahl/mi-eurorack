@@ -40,5 +40,5 @@ bootstrap_all:
 		make -f grids/bootloader/makefile fuses
 		$(AVRDUDE) -B 1 $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) \
 			-U flash:w:build/grids/grids.hex:i \
-			-U flash:w:build/grids_bootloader/grids_bootloader.hex:i \
-			-U lock:w:0x2f:m
+			-U flash:w:build/grids_bootloader/grids_bootloader.hex:i
+#-U lock:w:0x2f:m

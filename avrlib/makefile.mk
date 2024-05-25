@@ -22,7 +22,7 @@ PROGRAMMER     = arduino
 #PROGRAMMER_PORT ?= usb
 PROGRAMMER_PORT ?= /dev/ttyUSB0
 AVRDUDE_ERASE  ?= no
-AVRDUDE_LOCK   ?= yes
+#AVRDUDE_LOCK   ?= yes
 
 ifeq ($(FAMILY),tiny)
 MCU            = attiny$(MCU_NAME)
@@ -171,11 +171,13 @@ bin:	$(TARGET_BIN)
 
 upload:    $(TARGET_HEX)
 		$(AVRDUDE) $(AVRDUDE_ERASE_OPTS) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) \
-			-B 1 -U flash:w:$(TARGET_HEX):i $(AVRDUDE_LOCK_OPTS) 
+			-B 1 -U flash:w:$(TARGET_HEX):i
+#-B 1 -U flash:w:$(TARGET_HEX):i $(AVRDUDE_LOCK_OPTS) 
 
 slow_upload:    $(TARGET_HEX)
 		$(AVRDUDE) $(AVRDUDE_ERASE_OPTS) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) \
-			-B 4 -U flash:w:$(TARGET_HEX):i $(AVRDUDE_LOCK_OPTS)
+			-B 4 -U flash:w:$(TARGET_HEX):i
+#-B 4 -U flash:w:$(TARGET_HEX):i $(AVRDUDE_LOCK_OPTS)
 
 clean:
 		$(REMOVE) $(OBJS) $(TARGETS) $(DEP_FILE) $(DEPS)
@@ -241,7 +243,8 @@ eeprom_backup:
 
 eeprom_restore:
 	$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) \
-		-U eeprom:w:$(GOLDEN_EEPROM_FILE):i -U lock:w:0x$(LOCK):m
+		-U eeprom:w:$(GOLDEN_EEPROM_FILE):i
+#-U eeprom:w:$(GOLDEN_EEPROM_FILE):i -U lock:w:0x$(LOCK):m
 
 flash_backup:
 	$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) \
@@ -290,8 +293,8 @@ fuses:
 		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) -B 10 -e -u \
 			-U efuse:w:0x$(EFUSE):m \
 			-U hfuse:w:0x$(HFUSE):m \
-			-U lfuse:w:0x$(LFUSE):m \
-			-U lock:w:0x$(LOCK):m
+			-U lfuse:w:0x$(LFUSE):m
+#-U lock:w:0x$(LOCK):m
 
 # ------------------------------------------------------------------------------
 # Program (fuses + firmware) a blank chip
@@ -306,4 +309,5 @@ bake:	$(FIRMWARE)
 			-U lfuse:w:0x$(LFUSE):m \
 			-U lock:w:0x$(LOCK):m
 		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) -B 1 \
-			-U flash:w:$(TARGET_HEX):i -U lock:w:0x$(LOCK):m
+			-U flash:w:$(TARGET_HEX):i
+#-U flash:w:$(TARGET_HEX):i -U lock:w:0x$(LOCK):m

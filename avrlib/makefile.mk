@@ -13,11 +13,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-AVRLIB_TOOLS_PATH ?= /usr/local/CrossPack-AVR/bin/
+#AVRLIB_TOOLS_PATH ?= /usr/local/CrossPack-AVR/bin/
+AVRLIB_TOOLS_PATH = /usr/bin/
 BUILD_ROOT     = build/
 BUILD_DIR      = $(BUILD_ROOT)$(TARGET)/
-PROGRAMMER     ?= avrispmkII
-PROGRAMMER_PORT ?= usb
+#PROGRAMMER     ?= avrispmkII
+PROGRAMMER     = arduino
+#PROGRAMMER_PORT ?= usb
+PROGRAMMER_PORT ?= /dev/ttyUSB0
 AVRDUDE_ERASE  ?= no
 AVRDUDE_LOCK   ?= yes
 
@@ -135,7 +138,7 @@ $(BUILD_DIR)%.sym: $(BUILD_DIR)%.elf
 # ------------------------------------------------------------------------------
 
 AVRDUDE_COM_OPTS = -V -p $(DMCU)
-AVRDUDE_ISP_OPTS = -c $(PROGRAMMER) -P $(PROGRAMMER_PORT)
+AVRDUDE_ISP_OPTS = -c $(PROGRAMMER) -P $(PROGRAMMER_PORT) -b 57600
 
 ifeq ($(AVRDUDE_LOCK),no)
 AVRDUDE_LOCK_OPTS =
